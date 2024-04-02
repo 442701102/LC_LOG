@@ -19,8 +19,8 @@ import sys
 # 定义全局变量
 default_conan_home = ""
 default_build_py = ""
-default_install_py="conanfile_install.py"
-default_create_py="conanfile_create.py"
+default_install_py="conanfile.py"
+default_create_py="recipe_dlt.py"
 default_profiles_name = "profiles_Ubuntu_20.04"
 default_deployer_name = "deployer_thirdparty"
 

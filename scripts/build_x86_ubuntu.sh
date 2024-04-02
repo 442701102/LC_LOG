@@ -9,7 +9,7 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 source "$SCRIPT_DIR/common_utils.sh"
 DEFAULT_HOST_PROFILE="profiles_Ubuntu_20.04"
 DEFAULT_ACTION="all"
-DEFAULT_CONANFILE=""
+DEFAULT_CONANFILE="conanfile.py"
 
 # 帮助信息函数
 show_help() {

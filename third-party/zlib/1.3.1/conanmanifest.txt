@@ -1,0 +1,8 @@
+1708594158
+conaninfo.txt: b95b76a998e68cc0e6eff22b7032e4a0
+include/zconf.h: ac5c4c4663ba5c20936b69b3beb53a72
+include/zlib.h: fbab4a455b2970c36a44c9464c9625e4
+lib/libz.so: b4b3a2605889934f49dee4f236c74a65
+lib/libz.so.1: ec99d55f943023596e63ae4e0b6e2f73
+lib/libz.so.1.3.1: c36067a5a4685416aa344da442180aaa
+licenses/LICENSE: a0ee6efb064fd8a9b73d811535c2a55f

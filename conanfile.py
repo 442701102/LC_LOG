@@ -26,8 +26,13 @@ class ExeRecipe(ConanFile):
             self.options.rm_safe("fPIC")
 
     def requirements(self):
-        self.requires("dlt-daemon/2.18.10")  # This is a requirement 
-        self.requires("cppzmq/4.10.0")  # This is a requirement 
+        self.requires("dlt-daemon/2.18.10") 
+        self.requires("spdlog/1.13.0")  
+        self.requires("log4cplus/2.1.1")
+        self.requires("glog/0.7.0")    
+        self.requires("fmt/10.2.1")
+        
+
 
     def configure(self):
         if self.options.shared:
@@ -52,7 +57,7 @@ class ExeRecipe(ConanFile):
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = ["libs_man"]
+        self.cpp_info.libs = ["libLCLOG"]
 
     
 

@@ -1,0 +1,24 @@
+[settings]
+os=Linux
+arch=armv7hf
+compiler=gcc
+compiler.libcxx=libstdc++
+build_type=Release
+compiler.version=6.4
+[options]
+*:shared=True
+[buildenv]
+CC=/opt/sdk/ql-ag35-le22-gcc640-v1-toolchain/gcc/usr/bin/arm-oe-linux-gnueabi/arm-oe-linux-gnueabi-gcc
+CXX=/opt/sdk/ql-ag35-le22-gcc640-v1-toolchain/gcc/usr/bin/arm-oe-linux-gnueabi/arm-oe-linux-gnueabi-g++
+LD=/opt/sdk/ql-ag35-le22-gcc640-v1-toolchain/gcc/usr/bin/arm-oe-linux-gnueabi/arm-oe-linux-gnueabi-ld
+AR=/opt/sdk/ql-ag35-le22-gcc640-v1-toolchain/gcc/usr/bin/arm-oe-linux-gnueabi/arm-oe-linux-gnueabi-ar
+STRIP=/opt/sdk/ql-ag35-le22-gcc640-v1-toolchain/gcc/usr/bin/arm-oe-linux-gnueabi/arm-oe-linux-gnueabi-strip
+RANLIB=/opt/sdk/ql-ag35-le22-gcc640-v1-toolchain/gcc/usr/bin/arm-oe-linux-gnueabi/arm-oe-linux-gnueabi-ranlib
+CFLAGS=-march=armv7-a -mfpu=neon -mfloat-abi=hard --sysroot=/opt/sdk/ql-ol-extsdk-ag35cevnr12a02m4g_ocpu/ql-sysroots
+CXXFLAGS=-march=armv7-a -mfpu=neon -mfloat-abi=hard --sysroot=/opt/sdk/ql-ol-extsdk-ag35cevnr12a02m4g_ocpu/ql-sysroots
+LDFLAGS=-L/opt/sdk/ql-ol-extsdk-ag35cevnr12a02m4g_ocpu/ql-sysroots/lib -L/opt/sdk/ql-ol-extsdk-ag35cevnr12a02m4g_ocpu/ql-sysroots/usr/lib -L/opt/sdk/ql-ol-extsdk-ag35cevnr12a02m4g_ocpu/ql-sysroots/usr/lib/arm-oe-linux-gnueabi/6.4.0
+LINKFLAGS=--sysroot=/opt/sdk/ql-ol-extsdk-ag35cevnr12a02m4g_ocpu/ql-sysroots -L/opt/sdk/ql-ol-extsdk-ag35cevnr12a02m4g_ocpu/ql-sysroots/usr/lib -L/opt/sdk/ql-ol-extsdk-ag35cevnr12a02m4g_ocpu/ql-sysroots/usr/lib/arm-oe-linux-gnueabi/6.4.0
+[tool_requires]
+tools.build:sysroot="--sysroot=/opt/sdk/ql-ol-extsdk-ag35cevnr12a02m4g_ocpu/ql-sysroots"
+
+
