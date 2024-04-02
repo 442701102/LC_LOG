@@ -1,25 +1,39 @@
 cmake_minimum_required(VERSION 3.15)
-project(LC_LOG CXX)
+project(LC_LOG_PRO CXX)
+
+set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+message("Weclome to the LC_LOG_PRO !!!!")
 
 set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/third-party")
-set(CXX_STANDARD 20)
 
-add_library(${PROJECT_NAME} SHARED src/lib_main.cpp)
-target_include_directories(${PROJECT_NAME} PUBLIC include)
+# Suppose we have an option for choosing the logger implementation
+set(LOGGER_IMPL "GLOG" CACHE STRING "Select which logging implementation to use")
+# Configure based on the selected logger
+if(LOGGER_IMPL STREQUAL "STD_COUT")
+    add_definitions(-DUSE_STD_COUT)
+elseif(LOGGER_IMPL STREQUAL "SPDLOG")
+    add_definitions(-DUSE_SPDLOG)
+elseif(LOGGER_IMPL STREQUAL "GLOG")
+    add_definitions(-DUSE_GLOG)
+elseif(LOGGER_IMPL STREQUAL "LOG4CPLUS")
+    add_definitions(-DUSE_LOG4CPLUS)
+elseif(LOGGER_IMPL STREQUAL "DLT")
+    add_definitions(-DUSE_DLT)
+else()
+    message(FATAL_ERROR "Invalid logger implementation selected: ${LOGGER_IMPL}")
+endif()
+
+message(STATUS "Selected logger implementation: ${LOGGER_IMPL}")
+# Add a configuration header file to handle CMake's settings for the source code
+configure_file (
+  "${CMAKE_SOURCE_DIR}/config/config.h.in"
+  "${CMAKE_SOURCE_DIR}/include/config.h"  
+)
 
 
-find_package(fmt REQUIRED)
-find_package(glog REQUIRED)
-find_package(log4cplus REQUIRED)
-find_package(spdlog REQUIRED)
-find_package(dlt-daemon REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC  log4cplus::log4cplus fmt::fmt glog::glog spdlog::spdlog dlt-daemon::dlt-daemon)
-#add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#                  COMMAND ${CMAKE_COMMAND} -E echo "Linking libraries...")
-
-
-# 
-# Specify the installation directory for the executable 
-install(TARGETS ${PROJECT_NAME} DESTINATION lib)
+add_subdirectory(src)
 

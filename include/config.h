@@ -1,0 +1,4 @@
+
+#define USE_LOG4CPLUS 0
+/* #undef GLOG_CONFIGPATH */
+/* #undef LOG4CPLUS_CONFIGPATH */
