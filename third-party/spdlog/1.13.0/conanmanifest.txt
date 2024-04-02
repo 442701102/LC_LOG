@@ -1,5 +1,5 @@
-1709323214
-conaninfo.txt: e96e63f45883b21506eb062c93c5b7cd
+1712067361
+conaninfo.txt: 668a6616be2798528b37743a90640931
 include/spdlog/async.h: c697412b7425861a91ed46b7d7a3792a
 include/spdlog/async_logger-inl.h: 09842990037447b8acc0e336f2862977
 include/spdlog/async_logger.h: ad2d926b87a4310daf410cb584d1ef76
@@ -89,7 +89,7 @@ include/spdlog/spdlog.h: 523bd93d0a30aa837f082187e3905ce2
 include/spdlog/stopwatch.h: e44920277f0d0727d2f308fb0c014fb3
 include/spdlog/tweakme.h: f56767b14e0d9f798e7962ab0dac51c5
 include/spdlog/version.h: cb9c4349910f7a8c3f9dc7a5f5f348e0
-lib/libspdlog.so: 1fcbac995c0a7dd2eb9fff3a9da019bc
-lib/libspdlog.so.1.13: abe4295cd3c834c6985f92b9ffca5325
-lib/libspdlog.so.1.13.0: 26b9a9bf0d62a80e91ac21c09d4e370b
+lib/libspdlogd.so: 5282cc06ab3dc893064b02b45124ea62
+lib/libspdlogd.so.1.13: 5fda16fc1bc0d3693ba8e7c50f0ff6b1
+lib/libspdlogd.so.1.13.0: ca19e455b2c92a971ecfc823a80a5439
 licenses/LICENSE: 9573510928429ad0cbe5ba4de77546e9

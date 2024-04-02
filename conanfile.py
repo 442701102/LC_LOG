@@ -26,11 +26,12 @@ class ExeRecipe(ConanFile):
             self.options.rm_safe("fPIC")
 
     def requirements(self):
+        self.requires("glog/0.7.0")   
+        self.requires("log4cplus/2.1.1")
+        self.requires("fmt/10.2.1")
         self.requires("dlt-daemon/2.18.10") 
         self.requires("spdlog/1.13.0")  
-        self.requires("log4cplus/2.1.1")
-        self.requires("glog/0.7.0")    
-        self.requires("fmt/10.2.1")
+
         
 
 

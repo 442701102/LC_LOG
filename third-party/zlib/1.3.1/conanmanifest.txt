@@ -1,8 +1,8 @@
-1708594158
-conaninfo.txt: b95b76a998e68cc0e6eff22b7032e4a0
+1712067351
+conaninfo.txt: 30f4361c931470c0c76afad574ff2e8e
 include/zconf.h: ac5c4c4663ba5c20936b69b3beb53a72
 include/zlib.h: fbab4a455b2970c36a44c9464c9625e4
 lib/libz.so: b4b3a2605889934f49dee4f236c74a65
 lib/libz.so.1: ec99d55f943023596e63ae4e0b6e2f73
-lib/libz.so.1.3.1: c36067a5a4685416aa344da442180aaa
+lib/libz.so.1.3.1: b0104b99d953c70574872a5a9c054335
 licenses/LICENSE: a0ee6efb064fd8a9b73d811535c2a55f

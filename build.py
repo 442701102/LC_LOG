@@ -18,6 +18,7 @@ import sys
 
 # 定义全局变量
 default_conan_home = ""
+default_build_type = "Debug"
 default_build_py = ""
 default_install_py="conanfile.py"
 default_create_py="recipe_dlt.py"
@@ -127,7 +128,7 @@ def main():
     # 添加命令行参数
     parser.add_argument("--action", choices=['create', 'install', 'all'], default='all', help="Action to perform: create, install, or all. Defaults to 'all'.")
     parser.add_argument("--conan_home", help="Path to the Conan home directory.", default=default_conan_home)
-    parser.add_argument("--build_type", help="Path to the Conan home directory.", default="Release")
+    parser.add_argument("--build_type", help="Path to the Conan home directory.", default=default_build_type)
     parser.add_argument("--conanfile", help="Name of the conanfile to use.", default=default_build_py)
     parser.add_argument("--conanfile_install", help="Name of the conanfile to use.", default=default_install_py)
     parser.add_argument("--conanfile_create", help="Name of the conanfile to use.", default=default_create_py)
@@ -161,5 +162,60 @@ def main():
         install_package(args, env_vars)
 
 
+
 if __name__ == "__main__":
     main()
+    # 设置构建类型
+    BUILD_TYPE = default_build_type
+    print("BUILD_TYPE:", BUILD_TYPE)
+
+    # 主目录路径，这里假设脚本位于主目录
+    main_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # 构建目录路径
+    build_dir = os.path.join(main_dir, "build")
+
+    # 确保构建目录存在
+    os.makedirs(build_dir, exist_ok=True)
+
+    # 切换到构建目录
+    os.chdir(build_dir)
+    print("build_dir:", build_dir)
+    print("main_dir:", main_dir)
+
+    # 构建命令
+    cmake_configure_command = [
+        "cmake",
+        "..",
+        f"-DCMAKE_INSTALL_PREFIX:PATH={os.path.join(build_dir, 'output/')}",
+        f"-DCMAKE_TOOLCHAIN_FILE={os.path.join(build_dir, f'{BUILD_TYPE}/generators/conan_toolchain.cmake')}",
+        f"-DCMAKE_BUILD_TYPE={BUILD_TYPE}",
+        f"-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        f"-DCMAKE_VERBOSE_MAKEFILE=ON",
+        f"-DCMAKE_MODULE_PATH={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}",
+        f"-Dlog4cplus_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}",
+        f"-Dfmt_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}",
+        f"-Dgflags_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}",
+        f"-Dglog_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}",
+        f"-Ddlt-daemon_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}",
+        f"-Dspdlog_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}",
+        f"-Dlibunwind_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}",
+        f"-DLibLZMA_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}",
+        f"-DZLIB_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}", 
+        "-G",
+        "Unix Makefiles"
+    ]
+
+    cmake_build_command = [
+        "cmake",
+        "--build",
+        ".",
+        "--target",
+        "install"
+    ]
+
+    # 执行 CMake 配置
+    subprocess.run(cmake_configure_command, check=True)
+
+    # 执行 CMake 构建
+    subprocess.run(cmake_build_command, check=True)
