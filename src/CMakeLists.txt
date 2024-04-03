@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 
 
-project(LC_LOG LANGUAGES CXX)
+project(LCLOG LANGUAGES CXX)
 
-set(PROJECT_NAME LC_LOG)
+#set(PROJECT_NAME LCLOG)
 
 file(GLOB_RECURSE HEADER_FILES *.h)
 # Include source files based on the selected logger implementation
@@ -42,8 +42,10 @@ find_package(dlt-daemon REQUIRED)
 message(STATUS "LOGGER_SRC_FILES: ${LOGGER_SRC_FILES}")
 # Add the source files to the target
 add_library(${PROJECT_NAME} ${LOGGER_SRC_FILES} )
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(${PROJECT_NAME} PUBLIC  log4cplus::log4cplus fmt::fmt glog::glog spdlog::spdlog dlt-daemon::dlt-daemon)
+#设置运行时依赖在cmake主目录的 third-party
 
 #target_precompile_headers(${PROJECT_NAME} PUBLIC  )
 
