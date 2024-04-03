@@ -1,7 +1,7 @@
 #ifndef LC_GLOG_H
 #define LC_GLOG_H
 
-#include "LCLogger.hpp"
+#include "LCLoggerBase.hpp"
 #include <glog/logging.h>
 #include <glog/raw_logging.h>
 #include <glog/stl_logging.h>
@@ -9,24 +9,25 @@
 #include <glog/log_severity.h>
 
 
-class Log_glog : public LCLogger<Log_glog> {
+class Log_glog : public LCLoggerBase<Log_glog> {
 private:
     Log_glog() = default;
 public:
+    ~Log_glog() = default;
     Log_glog(const Log_glog&) = delete;
     Log_glog& operator=(const Log_glog&) = delete;
-    virtual ~Log_glog() = default;
+
 
     static Log_glog& GetInstance() {
         static Log_glog instance;
         return instance;
     }
 
-    bool Configure(const std::string &config = "");
+    bool Configure(const std::string &config = "");//< Configure the logger
     void setWatchCycle(uint32_t Seconds);
 
 protected:  
-    void LogImpl(LCLogLevel level, const std::string& message) override;
+    void LogImpl(LCLogLevel level, const std::string& message) override;//< Log the message with the specified level    
 
 };
 

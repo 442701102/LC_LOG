@@ -1,5 +1,5 @@
-#ifndef LCLogger_H
-#define LCLogger_H
+#ifndef LCLoggerBase_H
+#define LCLoggerBase_H
 
 #include <iostream>
 #include <sstream>
@@ -42,14 +42,14 @@ template<typename... Args>
 concept Formattable = (... && FormattableSingle<Args>);
 // CRTP基类
 template<typename Derived>
-class LCLogger {
+class LCLoggerBase  {
 public:
-    LCLogger() = default; // 默认构造函数
-    ~LCLogger() = default; // 默认析构函数
+    LCLoggerBase () = default; // 默认构造函数
+    ~LCLoggerBase () = default; // 默认析构函数
 
     // 禁止拷贝构造和赋值
-    LCLogger(const LCLogger&) = delete;
-    LCLogger& operator=(const LCLogger&) = delete;
+    LCLoggerBase (const LCLoggerBase &) = delete;
+    LCLoggerBase & operator=(const LCLoggerBase &) = delete;
 
     // 静态初始化方法
     static bool init(const std::string &config = "") { 
@@ -61,13 +61,13 @@ public:
     }
 
     // 格式化日志接口
-    template<Formattable... Args>
-    static void Log(LCLogLevel level, const std::string& format, Args&&... args) {
-#ifdef FMT_USE_STD_FORMAT
-        std::string message = std::format(format, std::forward<Args>(args)...);
-#else
-        std::string message = fmt::format(format, std::forward<Args>(args)...);
-#endif
+    template<typename FormatStr, typename... Args>
+    static void Log(LCLogLevel level, FormatStr&& format, Args&&... args) {
+    #ifdef FMT_USE_STD_FORMAT
+        std::string message = std::format(std::forward<FormatStr>(format), std::forward<Args>(args)...);
+    #else
+        std::string message = fmt::format(std::forward<FormatStr>(format), std::forward<Args>(args)...);
+    #endif
         Derived::GetInstance()->LogImpl(level, message);
     }
     static std::string LogInternal(const char* format, va_list args) {
@@ -93,6 +93,7 @@ public:
         std::string formattedMessage = LogInternal(format, args);
         va_end(args);
         
+        // 确保这里调用的是移动构造函数
         Derived::GetInstance()->LogImpl(level, formattedMessage);
     }
 
@@ -128,6 +129,6 @@ protected:
 };
 
 // 日志宏定义
-#define LC_LOG(level) LCLogger::Log(level)
+#define LC_LOG(level) LCLoggerBase ::Log(level)
 
-#endif // LCLogger_H
+#endif // LCLoggerBase_H
