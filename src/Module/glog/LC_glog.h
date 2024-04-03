@@ -7,13 +7,18 @@
 #include <glog/stl_logging.h>
 #include <glog/vlog_is_on.h>
 #include <glog/log_severity.h>
-
+#include <atomic>
 namespace lclog {
 class Log_glog : public LCLoggerBase<Log_glog> {
 private:
-    Log_glog() = default;
+    Log_glog():_start_init(false){};
+
+    std::atomic<bool> _start_init;
+//  atomic<uint32_t> watchCycle = 0;
 public:
-    ~Log_glog() = default;
+    ~Log_glog() override{
+        google::ShutdownGoogleLogging();    //Close the glog library and free the memory of the glog library
+    }
     Log_glog(const Log_glog&) = delete;
     Log_glog& operator=(const Log_glog&) = delete;
 
