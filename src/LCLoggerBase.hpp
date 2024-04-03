@@ -48,34 +48,35 @@ namespace lclog {
 template<typename Derived>
 class LCLoggerBase  {
 public:
-    LCLoggerBase () = default; // 默认构造函数
-    ~LCLoggerBase () = default; // 默认析构函数
+    LCLoggerBase () = default; //< 默认构造函数
+    virtual ~LCLoggerBase() = default; //< 虚析构函数
 
     // 禁止拷贝构造和赋值
     LCLoggerBase (const LCLoggerBase &) = delete;
     LCLoggerBase & operator=(const LCLoggerBase &) = delete;
 
     // 静态初始化方法
-    static bool init(const std::string &config = "") { 
-            // 确保派生类提供GetInstance静态方法
+    bool init(const std::string &config = "", LogLevel level = LogLevel::Info) { 
+        // 确保派生类提供GetInstance静态方法
         static_assert(std::is_member_function_pointer<decltype(&Derived::GetInstance)>::value,
-                  "Derived class must implement static GetInstance method.");  
-        // 可以设置全局配置，比如日志级别，输出目的地等
+                  "Derived class must implement static GetInstance method.");
+        // 设置当前日志级别
+        m_currentLevel = level;  
         return Derived::GetInstance()->Configure(config);
     }
 
     // 格式化日志接口
     template<typename FormatStr, typename... Args>
-    static void Log(LogLevel level, FormatStr&& format, Args&&... args) {
-    
-    #ifdef FMT_USE_STD_FORMAT
-        std::string message = std::format(std::forward<FormatStr>(format), std::forward<Args>(args)...);
-    #else
-        std::string message = fmt::format(std::forward<FormatStr>(format), std::forward<Args>(args)...);
-    #endif
-        Derived::GetInstance()->LogImpl(level, message);
+    void Log(LogLevel level, FormatStr&& format, Args&&... args) {
+        if(level < m_currentLevel) return;
+        #ifdef FMT_USE_STD_FORMAT
+            std::string message = std::format(std::forward<FormatStr>(format), std::forward<Args>(args)...);
+        #else
+            std::string message = fmt::format(std::forward<FormatStr>(format), std::forward<Args>(args)...);
+        #endif
+            Derived::GetInstance()->LogImpl(level, message);
     }
-    static std::string LogInternal(const char* format, va_list args) {
+    std::string LogInternal(const char* format, va_list args) {
         std::vector<char> buffer(4096);
         va_list args_copy;
         va_copy(args_copy, args);
@@ -88,11 +89,11 @@ public:
             vsnprintf(buffer.data(), buffer.size(), format, args_copy);
             va_end(args_copy);
         }
-
         return std::string(buffer.data());
     }
 
-    static void printf(LogLevel level, const char* format, ...) {
+    void printf(LogLevel level, const char* format, ...) {
+        if(level < m_currentLevel) return;
         va_list args;
         va_start(args, format);
         std::string formattedMessage = LogInternal(format, args);
@@ -123,14 +124,14 @@ public:
     };
 
     // 提供一个接口来开始流式日志记录
-    static LogStream Log(LogLevel level) {
+    LogStream Log(LogLevel level) {
         return LogStream(level);
     }
 
 protected:
     virtual void LogImpl(LogLevel level, const std::string& message) = 0;
     //current log level
-    static LogLevel currentLevel;
+    LogLevel m_currentLevel = LogLevel::Info;
 
     
 
