@@ -126,7 +126,7 @@ def main():
     parser = argparse.ArgumentParser(description="Run Conan commands with optional arguments.")
 
     # 添加命令行参数
-    parser.add_argument("--action", choices=['create', 'install', 'all'], default='all', help="Action to perform: create, install, or all. Defaults to 'all'.")
+    parser.add_argument("--action", choices=['create', 'install', 'all'], default='install', help="Action to perform: create, install, or all. Defaults to 'all'.")
     parser.add_argument("--conan_home", help="Path to the Conan home directory.", default=default_conan_home)
     parser.add_argument("--build_type", help="Path to the Conan home directory.", default=default_build_type)
     parser.add_argument("--conanfile", help="Name of the conanfile to use.", default=default_build_py)

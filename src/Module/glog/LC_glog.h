@@ -8,7 +8,7 @@
 #include <glog/vlog_is_on.h>
 #include <glog/log_severity.h>
 
-
+namespace lclog {
 class Log_glog : public LCLoggerBase<Log_glog> {
 private:
     Log_glog() = default;
@@ -27,13 +27,10 @@ public:
     void setWatchCycle(uint32_t Seconds);
 
 protected:  
-    void LogImpl(LCLogLevel level, const std::string& message) override;//< Log the message with the specified level    
+    void LogImpl(LogLevel level, const std::string& message) override;//< Log the message with the specified level    
 
 };
-
-
-
-
+}
 
 
 

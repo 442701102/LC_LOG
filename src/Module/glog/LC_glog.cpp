@@ -1,23 +1,23 @@
 #include "LC_glog.h"
 
 
+namespace lclog{
 
-
-void Log_glog::LogImpl(LCLogLevel level, const std::string& message) {
+void Log_glog::LogImpl(LogLevel level, const std::string& message) {
     switch (level) {
-        case LCLogLevel::Debug:
+        case LogLevel::Debug:
             LOG(INFO) << message;
             break;
-        case LCLogLevel::Info:
+        case LogLevel::Info:
             LOG(INFO) << message;
             break;
-        case LCLogLevel::Warn:
+        case LogLevel::Warn:
             LOG(WARNING) << message;
             break;
-        case LCLogLevel::Error:
+        case LogLevel::Error:
             LOG(ERROR) << message;
             break;
-        case LCLogLevel::Fatal:
+        case LogLevel::Fatal:
             LOG(FATAL) << message;
             break;
         default:
@@ -41,3 +41,4 @@ bool Log_glog::Configure(const std::string &config) {
     return true;
 }
 
+}

@@ -1,5 +1,5 @@
-1712067361
-conaninfo.txt: 668a6616be2798528b37743a90640931
+1712117673
+conaninfo.txt: d540603285a8745beff4512ed35c3662
 include/spdlog/async.h: c697412b7425861a91ed46b7d7a3792a
 include/spdlog/async_logger-inl.h: 09842990037447b8acc0e336f2862977
 include/spdlog/async_logger.h: ad2d926b87a4310daf410cb584d1ef76
@@ -91,5 +91,5 @@ include/spdlog/tweakme.h: f56767b14e0d9f798e7962ab0dac51c5
 include/spdlog/version.h: cb9c4349910f7a8c3f9dc7a5f5f348e0
 lib/libspdlogd.so: 5282cc06ab3dc893064b02b45124ea62
 lib/libspdlogd.so.1.13: 5fda16fc1bc0d3693ba8e7c50f0ff6b1
-lib/libspdlogd.so.1.13.0: ca19e455b2c92a971ecfc823a80a5439
+lib/libspdlogd.so.1.13.0: 61a9e71cda43b10adb06078e9ed26dd0
 licenses/LICENSE: 9573510928429ad0cbe5ba4de77546e9
