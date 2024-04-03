@@ -7,7 +7,7 @@
 #include <vector>
 #include <cstdarg> 
 #include <concepts>
-
+#include "env_def.h"
 
 //如果gcc大于13,且支持C++20 则使用std::format
 #if defined(__GNUC__) && __GNUC__ >= 13 && defined(__cpp_lib_format) 
@@ -18,14 +18,6 @@
 #include <fmt/format.h>
 #define FMT_USE_FMT
 #endif
-
-enum LogLevel {
-    Debug,
-    Info,
-    Warn,
-    Error,
-    Fatal
-};
 
 
 #ifdef FMT_USE_STD_FORMAT
@@ -56,13 +48,13 @@ public:
     LCLoggerBase & operator=(const LCLoggerBase &) = delete;
 
     // 静态初始化方法
-    bool init(const std::string &config = "", LogLevel level = LogLevel::Info) { 
+    bool init(LC_LOG_SETTING &config, LogLevel level = LogLevel::Info) {
         // 确保派生类提供GetInstance静态方法
-        static_assert(std::is_member_function_pointer<decltype(&Derived::GetInstance)>::value,
-                  "Derived class must implement static GetInstance method.");
+        // static_assert(std::is_member_function_pointer<decltype(&Derived::GetInstance)>::value,
+        //           "Derived class must implement static GetInstance method.");
         // 设置当前日志级别
         m_currentLevel = level;  
-        return Derived::GetInstance()->Configure(config);
+        return Derived::GetInstance().Configure(config);
     }
 
     // 格式化日志接口
@@ -74,7 +66,7 @@ public:
         #else
             std::string message = fmt::format(std::forward<FormatStr>(format), std::forward<Args>(args)...);
         #endif
-            Derived::GetInstance()->LogImpl(level, message);
+            Derived::GetInstance().LogImpl(level, message);
     }
     std::string LogInternal(const char* format, va_list args) {
         std::vector<char> buffer(4096);
@@ -100,7 +92,7 @@ public:
         va_end(args);
         
         // 确保这里调用的是移动构造函数
-        Derived::GetInstance()->LogImpl(level, formattedMessage);
+        Derived::GetInstance().LogImpl(level, formattedMessage);
     }
 
     // 用于收集日志消息的临时对象
@@ -109,7 +101,7 @@ public:
         LogStream(LogLevel level) : level_(level) {}
         
         ~LogStream() {
-            Derived::GetInstance()->LogImpl(level_, stream_.str());
+            Derived::GetInstance().LogImpl(level_, stream_.str());
         }
 
         template<typename T>

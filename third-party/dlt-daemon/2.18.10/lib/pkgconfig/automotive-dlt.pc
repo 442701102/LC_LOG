@@ -13,8 +13,8 @@
 # For further information see http://www.covesa.org/.
 #######
 
-prefix=/root/.conan2/p/b/dlt-d960744390d5de/p
-exec_prefix=/root/.conan2/p/b/dlt-d960744390d5de/p
+prefix=/root/.conan2/p/b/dlt-d402ae303d4009/p
+exec_prefix=/root/.conan2/p/b/dlt-d402ae303d4009/p
 libdir=${exec_prefix}/lib
 includedir=${exec_prefix}/include
 
