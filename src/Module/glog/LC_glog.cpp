@@ -1,37 +1,55 @@
 #include "LC_glog.h"
 
-
+#include <glog/logging.h>
+#include <glog/raw_logging.h>
+#include <glog/stl_logging.h>
+#include <glog/vlog_is_on.h>
+#include <glog/log_severity.h>
 namespace lclog{
+    constexpr int glogLogger::mapLogLevel(LogLevel level) {
+        switch (level) {
+            case Fatal: return 0;
+            case Error: return 1;
+            case Warn:  return 2;
+            case Info:  return 3;
+            case Debug: return 4;
+            default:    return -1; 
+        }
+    }
 
-void Log_glog::LogImpl(LogLevel level, const std::string& message) {
+glogLogger::~glogLogger(){
+    std::cout << "glogLogger is shutting down" << std::endl;
+    google::ShutdownGoogleLogging();    //Close the glog library and free the memory of the glog library
+}
+void glogLogger::HandleLogOutput(LogLevel level, const std::string& message) {
        VLOG(mapLogLevel(level)) << message; 
 }
-bool Log_glog::Configure(LC_LOG_SETTING &config) {
+bool glogLogger::Configure(LC_LOG_SETTING &config) {
     if(this->_start_init == true){
       std::cout  <<  "The log system has been initialized" <<std::endl;
       return false;
     }
-    if(this->_wait_mutex.try_lock() == false){
-      std::cout  <<  "The log system is being initialized and there is no need to repeat operations" <<std::endl;
-      return false;
-    }
-    std::lock_guard<std::mutex> lk_guard(this->_wait_mutex, std::adopt_lock);
-//set glog config 
+    //set glog config 
     google::InitGoogleLogging(config.log_id.data());    
     _glogInit(config);
-//set thread 
-    this->_Delay_Thread = std::thread([this]() {
-//Delay 10s to set this property to avoid resource strain
-      std::this_thread::sleep_for(std::chrono::seconds(10));
-//  [Thread-safe]指定级别以上的所有日志消息都立即写入到日志文件中
-      google::FlushLogFiles(google::GLOG_INFO);//Vlog is all info level.
-    });
-    this->_Delay_Thread.detach();
+    try {
+    //set thread 
+        this->_Delay_Thread = std::thread([this]() {
+    //Delay 10s to set this property to avoid resource strain
+        std::this_thread::sleep_for(std::chrono::seconds(10));
+    //  [Thread-safe]指定级别以上的所有日志消息都立即写入到日志文件中
+        google::FlushLogFiles(google::GLOG_INFO);//Vlog is all info level.
+        });
+        this->_Delay_Thread.detach();
+    } catch (const std::system_error& e) {
+        std::cerr << "Exception caught during thread creation: " << e.what() << std::endl;
+        return false;
+    }
     std::cout<<  "OutputLogFile name :"<<config.output_file<<std::endl;
     this->_start_init = true;
     return true;
 }
-bool Log_glog::_glogInit(LC_LOG_SETTING &config) {
+bool glogLogger::_glogInit(LC_LOG_SETTING &config) {
     FLAGS_v = mapLogLevel(config.log_level);
     FLAGS_logtostderr = (config.log_to_file) ? 0:1; //1不输出到文件
     FLAGS_alsologtostderr = true;
@@ -56,6 +74,9 @@ bool Log_glog::_glogInit(LC_LOG_SETTING &config) {
     //重定向到log文件中,设置系统崩溃时的输出函数，data数据不一定是以'\0'结尾。
 //    google::InstallFailureWriter(&SignalHandle);
     return true;
+}
+inline bool glogLogger::isEnable() {
+    return this->_start_init;
 }
 
 }
