@@ -1,9 +1,15 @@
 #include "LC_glog.h"
 
-
+#include <glog/logging.h>
+#include <glog/raw_logging.h>
+#include <glog/stl_logging.h>
+#include <glog/vlog_is_on.h>
+#include <glog/log_severity.h>
 namespace lclog{
-
-void Log_glog::LogImpl(LogLevel level, const std::string& message) {
+Log_glog::~Log_glog(){
+    google::ShutdownGoogleLogging();    //Close the glog library and free the memory of the glog library
+}
+void Log_glog::HandleLogOutput(LogLevel level, const std::string& message) {
        VLOG(mapLogLevel(level)) << message; 
 }
 bool Log_glog::Configure(LC_LOG_SETTING &config) {

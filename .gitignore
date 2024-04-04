@@ -34,3 +34,5 @@
 build/
 CMakeUserPresets.json
 third-party/
+*.log
+
