@@ -4,7 +4,7 @@
 #include <atomic>
 
 #include <thread>
-#include "lclog.hpp"
+#include "global_logger.hpp"
 int main() {
     std::cout << "Hello, World!" << std::endl;
     lclog::init();

@@ -1,4 +1,13 @@
+// config.h.in - Configuration header template
 
-#cmakedefine01 USE_LOG4CPLUS
-#cmakedefine GLOG_CONFIGPATH ${GLOG_CONFIGPATH} 
-#cmakedefine LOG4CPLUS_CONFIGPATH ${LOG4CPLUS_CONFIGPATH}
+#ifndef CONFIG_H_
+#define CONFIG_H_
+
+#cmakedefine USE_STDOUT_LOGGER
+#cmakedefine USE_SPDLOG_LOGGER
+#cmakedefine USE_GLOG_LOGGER
+#cmakedefine USE_LOG4CPLUS_LOGGER
+#cmakedefine USE_DLT_LOGGER
+
+
+#endif // CONFIG_H_
