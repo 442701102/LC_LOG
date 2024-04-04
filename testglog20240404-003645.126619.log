@@ -1,5 +1,0 @@
-Log file created at: 2024/04/04 00:36:45
-Running on machine: cc
-Running duration (h:mm:ss): 0:00:00
-Log line format: [IWEF]yyyymmdd hh:mm:ss.uuuuuu threadid file:line] msg
-I20240404 00:36:45.275986 139665468493376 LC_glog.cpp:7] Hello, World!

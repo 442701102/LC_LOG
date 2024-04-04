@@ -2,15 +2,12 @@
 #define LC_GLOG_H
 
 #include "LCLoggerBase.hpp"
-#include <glog/logging.h>
-#include <glog/raw_logging.h>
-#include <glog/stl_logging.h>
-#include <glog/vlog_is_on.h>
-#include <glog/log_severity.h>
+#include <thread>
 #include <atomic>
 
 namespace lclog {
 class Log_glog : public LCLoggerBase<Log_glog> {
+    friend LCLoggerBase<Log_glog>; 
 private:
     constexpr int mapLogLevel(LogLevel level) {
         switch (level) {
@@ -19,7 +16,7 @@ private:
             case Warn:  return 2;
             case Info:  return 3;
             case Debug: return 4;
-            default:    return -1; // 或其他适当的错误处理
+            default:    return -1; 
         }
     }
     Log_glog():_start_init(false){};
@@ -39,9 +36,7 @@ public:
     } logsetting;
     logsetting _log_setting{".", "info", 2, 0, false};
 
-    ~Log_glog() override{
-        google::ShutdownGoogleLogging();    //Close the glog library and free the memory of the glog library
-    }
+    ~Log_glog() override;
     Log_glog(const Log_glog&) = delete;
     Log_glog& operator=(const Log_glog&) = delete;
 
@@ -54,8 +49,8 @@ public:
     bool Configure(LC_LOG_SETTING &config);//< Configure the logger
     void setWatchCycle(uint32_t Seconds);
 
-//protected:  
-    void LogImpl(LogLevel level, const std::string& message) override;//< Log the message with the specified level    
+protected:  
+    void HandleLogOutput(LogLevel level, const std::string& message) override;//< Log the message with the specified level    
 
 };
 }
