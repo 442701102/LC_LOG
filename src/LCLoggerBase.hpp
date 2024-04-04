@@ -7,6 +7,8 @@
 #include <vector>
 #include <cstdarg> 
 #include <concepts>
+#include <atomic>
+#include <thread>
 #include "env_def.h"
 #include <string_view>
 //如果gcc大于13,且支持C++20 则使用std::format
@@ -49,7 +51,16 @@ public:
 
     // 静态初始化方法
     bool init(LC_LOG_SETTING &config, LogLevel level = LogLevel::Info) {
+        if(Derived::GetInstance().isEnable() == true){
+            std::cout  <<  "The log system has been initialized and there is no need to repeat operations" <<std::endl;
+            return false;
+        }
         // 设置当前日志级别
+        if(this->_wait_mutex.try_lock() == false){
+            std::cout  <<  "The log system is being initialized and there is no need to repeat operations" <<std::endl;
+            return false;
+        }
+        std::lock_guard<std::mutex> lk_guard(this->_wait_mutex, std::adopt_lock);
         m_currentLevel = level;  
         return Derived::GetInstance().Configure(config);
     }
@@ -127,9 +138,11 @@ public:
 
 protected:
     virtual void HandleLogOutput(LogLevel level, const std::string& message) = 0;
+    virtual bool isEnable() = 0;    
+    virtual bool Configure(LC_LOG_SETTING &config) = 0;
     //current log level
     LogLevel m_currentLevel = LogLevel::Info;
-
+    std::mutex _wait_mutex;
     
 
 };

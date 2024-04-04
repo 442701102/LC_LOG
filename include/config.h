@@ -5,8 +5,8 @@
 
 /* #undef USE_STDOUT_LOGGER */
 /* #undef USE_SPDLOG_LOGGER */
-#define USE_GLOG_LOGGER
-/* #undef USE_LOG4CPLUS_LOGGER */
+/* #undef USE_GLOG_LOGGER */
+#define USE_LOG4CPLUS_LOGGER
 /* #undef USE_DLT_LOGGER */
 
 

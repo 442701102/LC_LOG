@@ -10,7 +10,7 @@ message("Weclome to the LC_LOG_PRO !!!!")
 set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/third-party")
 
 # Suppose we have an option for choosing the logger implementation
-set(LOGGER_CRTP "GLOG" CACHE STRING "Select which logging implementation to use")
+set(LOGGER_CRTP "LOG4CPLUS" CACHE STRING "Select which logging implementation to use")
 # Configure based on the selected logger
 if(LOGGER_CRTP STREQUAL "STD_COUT")
     add_definitions(-DUSE_STD_COUT)
@@ -20,7 +20,6 @@ elseif(LOGGER_CRTP STREQUAL "SPDLOG")
     set(USE_SPDLOG_LOGGER  1)
 elseif(LOGGER_CRTP STREQUAL "GLOG")
     add_definitions(-DUSE_GLOG)
-    message("GLOG is selected")
     set(USE_GLOG_LOGGER  1)
 elseif(LOGGER_CRTP STREQUAL "LOG4CPLUS")
     add_definitions(-DUSE_LOG4CPLUS)

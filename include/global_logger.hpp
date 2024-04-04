@@ -18,8 +18,8 @@
 #include "Module/glog/LC_glog.h"
 #define Derived glogLogger  
 #elif defined(USE_LOG4CPLUS_LOGGER)
-#include "Log4cplusLogger.h"
-#define Derived Log_log4
+#include "Module/log4cplus/LC_log4cplus.h"
+#define Derived log4cplusLogger
 #elif defined(USE_DLT_LOGGER)
 #include "DltLogger.h"
 #define Derived DltLogger
