@@ -49,9 +49,6 @@ public:
 
     // 静态初始化方法
     bool init(LC_LOG_SETTING &config, LogLevel level = LogLevel::Info) {
-        // 确保派生类提供GetInstance静态方法
-        // static_assert(std::is_member_function_pointer<decltype(&Derived::GetInstance)>::value,
-        //           "Derived class must implement static GetInstance method.");
         // 设置当前日志级别
         m_currentLevel = level;  
         return Derived::GetInstance().Configure(config);

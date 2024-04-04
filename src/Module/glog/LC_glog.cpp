@@ -6,13 +6,13 @@
 #include <glog/vlog_is_on.h>
 #include <glog/log_severity.h>
 namespace lclog{
-Log_glog::~Log_glog(){
+glogLogger::~glogLogger(){
     google::ShutdownGoogleLogging();    //Close the glog library and free the memory of the glog library
 }
-void Log_glog::HandleLogOutput(LogLevel level, const std::string& message) {
+void glogLogger::HandleLogOutput(LogLevel level, const std::string& message) {
        VLOG(mapLogLevel(level)) << message; 
 }
-bool Log_glog::Configure(LC_LOG_SETTING &config) {
+bool glogLogger::Configure(LC_LOG_SETTING &config) {
     if(this->_start_init == true){
       std::cout  <<  "The log system has been initialized" <<std::endl;
       return false;
@@ -37,7 +37,7 @@ bool Log_glog::Configure(LC_LOG_SETTING &config) {
     this->_start_init = true;
     return true;
 }
-bool Log_glog::_glogInit(LC_LOG_SETTING &config) {
+bool glogLogger::_glogInit(LC_LOG_SETTING &config) {
     FLAGS_v = mapLogLevel(config.log_level);
     FLAGS_logtostderr = (config.log_to_file) ? 0:1; //1不输出到文件
     FLAGS_alsologtostderr = true;

@@ -6,8 +6,8 @@
 #include <atomic>
 
 namespace lclog {
-class Log_glog : public LCLoggerBase<Log_glog> {
-    friend LCLoggerBase<Log_glog>; 
+class glogLogger : public LCLoggerBase<glogLogger> {
+    friend LCLoggerBase<glogLogger>; 
 private:
     constexpr int mapLogLevel(LogLevel level) {
         switch (level) {
@@ -19,7 +19,7 @@ private:
             default:    return -1; 
         }
     }
-    Log_glog():_start_init(false){};
+    glogLogger():_start_init(false){};
     bool  _glogInit(LC_LOG_SETTING &config);
     
     std::atomic<bool> _start_init;
@@ -36,13 +36,13 @@ public:
     } logsetting;
     logsetting _log_setting{".", "info", 2, 0, false};
 
-    ~Log_glog() override;
-    Log_glog(const Log_glog&) = delete;
-    Log_glog& operator=(const Log_glog&) = delete;
+    ~glogLogger() override;
+    glogLogger(const glogLogger&) = delete;
+    glogLogger& operator=(const glogLogger&) = delete;
 
 
-    static Log_glog& GetInstance() {
-        static Log_glog instance;
+    static glogLogger& GetInstance() {
+        static glogLogger instance;
         return instance;
     }
 

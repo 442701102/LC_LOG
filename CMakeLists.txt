@@ -10,31 +10,38 @@ message("Weclome to the LC_LOG_PRO !!!!")
 set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/third-party")
 
 # Suppose we have an option for choosing the logger implementation
-set(LOGGER_IMPL "GLOG" CACHE STRING "Select which logging implementation to use")
+set(LOGGER_CRTP "GLOG" CACHE STRING "Select which logging implementation to use")
 # Configure based on the selected logger
-if(LOGGER_IMPL STREQUAL "STD_COUT")
+if(LOGGER_CRTP STREQUAL "STD_COUT")
     add_definitions(-DUSE_STD_COUT)
-elseif(LOGGER_IMPL STREQUAL "SPDLOG")
+    set(USE_STDOUT_LOGGER  1)
+elseif(LOGGER_CRTP STREQUAL "SPDLOG")
     add_definitions(-DUSE_SPDLOG)
-elseif(LOGGER_IMPL STREQUAL "GLOG")
+    set(USE_SPDLOG_LOGGER  1)
+elseif(LOGGER_CRTP STREQUAL "GLOG")
     add_definitions(-DUSE_GLOG)
-elseif(LOGGER_IMPL STREQUAL "LOG4CPLUS")
+    message("GLOG is selected")
+    set(USE_GLOG_LOGGER  1)
+elseif(LOGGER_CRTP STREQUAL "LOG4CPLUS")
     add_definitions(-DUSE_LOG4CPLUS)
-elseif(LOGGER_IMPL STREQUAL "DLT")
+    set(USE_LOG4CPLUS_LOGGER  1)
+elseif(LOGGER_CRTP STREQUAL "DLT")
     add_definitions(-DUSE_DLT)
+    set(USE_DLT_LOGGER  1)
 else()
     message(FATAL_ERROR "Invalid logger implementation selected: ${LOGGER_IMPL}")
 endif()
 
-message(STATUS "Selected logger implementation: ${LOGGER_IMPL}")
+message(STATUS "Selected logger implementation: ${LOGGER_CRTP}")
+
+
 # Add a configuration header file to handle CMake's settings for the source code
 configure_file (
   "${CMAKE_SOURCE_DIR}/config/config.h.in"
   "${CMAKE_SOURCE_DIR}/include/config.h"  
 )
-
-
-
+include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/include)
 add_subdirectory(src)
 add_subdirectory(tools)
 
