@@ -6,7 +6,7 @@
 #include <glog/vlog_is_on.h>
 #include <glog/log_severity.h>
 namespace lclog{
-    constexpr int glogLogger::mapLogLevel(LogLevel level) {
+    static constexpr int mapLogLevel(LogLevel level) {
         switch (level) {
             case Fatal: return 0;
             case Error: return 1;
@@ -31,7 +31,7 @@ bool glogLogger::Configure(LC_LOG_SETTING &config) {
     }
     //set glog config 
     google::InitGoogleLogging(config.log_id.data());    
-    _glogInit(config);
+    _glogConfig(config);
     try {
     //set thread 
         this->_Delay_Thread = std::thread([this]() {
@@ -49,7 +49,7 @@ bool glogLogger::Configure(LC_LOG_SETTING &config) {
     this->_start_init = true;
     return true;
 }
-bool glogLogger::_glogInit(LC_LOG_SETTING &config) {
+bool glogLogger::_glogConfig(LC_LOG_SETTING &config) {
     FLAGS_v = mapLogLevel(config.log_level);
     FLAGS_logtostderr = (config.log_to_file) ? 0:1; //1不输出到文件
     FLAGS_alsologtostderr = true;

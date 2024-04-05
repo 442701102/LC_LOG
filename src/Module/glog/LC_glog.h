@@ -7,9 +7,8 @@ namespace lclog {
 class glogLogger : public LCLoggerBase<glogLogger> {
     friend LCLoggerBase<glogLogger>; 
 private:
-    constexpr int mapLogLevel(LogLevel level);
     glogLogger():_start_init(false){};
-    bool  _glogInit(LC_LOG_SETTING &config);
+    bool  _glogConfig(LC_LOG_SETTING &config);
     
     std::atomic<bool> _start_init;
     std::thread _Delay_Thread;

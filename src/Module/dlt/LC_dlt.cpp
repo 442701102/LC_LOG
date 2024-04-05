@@ -49,6 +49,7 @@ log4cplusLogger::~log4cplusLogger() {
 void log4cplusLogger::HandleLogOutput(LogLevel level, const std::string& message) {
     //::log4cplus::Logger::getRoot().log(mapLogLevel(level), static_cast<::log4cplus::tstring>(message));
     ::log4cplus::Logger::getRoot().forcedLog(mapLogLevel(level), LOG4CPLUS_STRING_TO_TSTRING(message));
+
 }
 
 bool log4cplusLogger::isEnable() {

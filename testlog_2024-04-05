@@ -1,0 +1,6 @@
+[2024-04-05 15:00:12.451] [info] [thread 122534] 1. This is a basic info message
+[2024-04-05 15:00:12.451] [info] [thread 122534] 2. Values: 42, 3.14, string literal
+[2024-04-05 15:00:12.451] [warning] [thread 122534] 3. Formatted message with int: 44, double: 52.27, string: string literal
+[2024-04-05 15:00:12.451] [error] [thread 122534] 4. Printf style message with int: 99, double: 548431.66, string: string literal
+[2024-04-05 15:00:12.451] [info] [thread 122534] 5. Advanced formatting with width and precision: int:         55, double: 3.14159
+[2024-04-05 15:00:12.451] [error] [thread 122534] 6. Concatenated message with multiple strings: Hello, World!
