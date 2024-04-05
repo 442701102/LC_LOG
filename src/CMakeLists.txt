@@ -7,9 +7,9 @@ project(LCLOG LANGUAGES CXX)
 
 file(GLOB_RECURSE HEADER_FILES *.h)
 # Include source files based on the selected logger implementation
-if(LOGGER_CRTP STREQUAL "STD_COUT")
-    file(GLOB_RECURSE STD_SRC_FILES Module/std/*.cc Module/std/*.cpp Module/std/*.hpp)
-    set(LOGGER_SRC_FILES ${STD_SRC_FILES})
+if(LOGGER_CRTP STREQUAL "CUSTOM")
+    file(GLOB_RECURSE CUSTOM_SRC_FILES Module/custom/*.cc Module/custom/*.cpp Module/custom/*.hpp)
+    set(LOGGER_SRC_FILES ${CUSTOM_SRC_FILES})
     message(STATUS "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@STD_COUT@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 elseif(LOGGER_CRTP STREQUAL "SPDLOG")
     file(GLOB_RECURSE SPDLOG_SRC_FILES Module/spdlog/*.cc Module/spdlog/*.cpp Module/spdlog/*.hpp)

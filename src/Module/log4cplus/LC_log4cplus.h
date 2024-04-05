@@ -9,10 +9,7 @@ namespace lclog {
 class DLL_PUBLIC  log4cplusLogger : public LCLoggerBase<log4cplusLogger> {
     friend LCLoggerBase<log4cplusLogger>;
 private:
-
     log4cplusLogger():_start_init(false){};
-    bool  _log4cplusInit(LC_LOG_SETTING &config);
-    
     std::atomic<bool> _start_init;
 public: 
     ~log4cplusLogger() override;
