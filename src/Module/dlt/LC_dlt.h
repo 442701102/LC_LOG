@@ -14,6 +14,7 @@ private:
     bool  _log4cplusInit(LC_LOG_SETTING &config);
     
     std::atomic<bool> _start_init;
+    std::thread _Delay_Thread;
 public: 
     ~log4cplusLogger() override;
     log4cplusLogger(const log4cplusLogger&) = delete;
@@ -23,6 +24,8 @@ public:
         static log4cplusLogger instance;
         return instance;
     }
+
+
 
 protected:
     void HandleLogOutput(LogLevel level, const std::string& message) override;//< Log the message with the specified level    

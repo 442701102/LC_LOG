@@ -12,8 +12,8 @@
 #include "StdoutLogger.h"
 #define Derived  StdoutLogger
 #elif defined(USE_SPDLOG_LOGGER)
-#include "SpdlogLogger.h"
-#define Derived  SpdlogLogger
+#include "Module/spdlog/LC_spdlog.h"
+#define Derived spdlogLogger  
 #elif defined(USE_GLOG_LOGGER)
 #include "Module/glog/LC_glog.h"
 #define Derived glogLogger  
@@ -47,12 +47,12 @@ void init(const std::string& config_file="") {
     // 检查glogLogger类是否满足要求
     CHECK_CLASS_TYPE(Derived);
     LC_LOG_SETTING config;  
-    config.input_file = "";
-    config.output_file = "testglog";
+    config.input_file = "/tmp/log4cplus.properties";
+    config.output_file = "testlog";
     config.log_id = "glog1127";
     config.log_level = LogLevel::Info;
     config.max_file_size = 1024;
-    config.max_log_count = 10;
+    config.max_file_count = 10;
     config.log_to_file = true;  
     GlobalLogInstance().init(config);
 }
