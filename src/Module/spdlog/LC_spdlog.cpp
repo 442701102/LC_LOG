@@ -31,7 +31,7 @@ static constexpr spdlog::level::level_enum mapLogLevel(LogLevel level) {
 void spdlogLogger::HandleLogOutput(LogLevel level, const std::string& message) {
     _pImpl->logger->log(static_cast<spdlog::level::level_enum>(mapLogLevel(level)), message);//bug
 }
-bool spdlogLogger::Configure(LC_LOG_SETTING &config) {
+bool spdlogLogger::Configure(LCLog_cfg_st &config) {
     if (this->_start_init == true) {
         std::cout << "spdlogLogger has been initialized" << std::endl;
         return true;

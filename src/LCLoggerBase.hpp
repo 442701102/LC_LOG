@@ -50,7 +50,7 @@ public:
     LCLoggerBase & operator=(const LCLoggerBase &) = delete;
 
     // 静态初始化方法
-    bool init(LC_LOG_SETTING &config, LogLevel level = LogLevel::Info) {
+    bool init(LCLog_cfg_st &config, LogLevel level = LogLevel::Info) {
         if(Derived::GetInstance().isEnable() == true){
             std::cout  <<  "The log system has been initialized and there is no need to repeat operations" <<std::endl;
             return false;
@@ -139,7 +139,7 @@ public:
 protected:
     virtual void HandleLogOutput(LogLevel level, const std::string& message) = 0;
     virtual bool isEnable() = 0;    
-    virtual bool Configure(LC_LOG_SETTING &config) = 0;
+    virtual bool Configure(LCLog_cfg_st &config) = 0;
     //current log level
     LogLevel m_currentLevel = LogLevel::Info;
     std::mutex _wait_mutex;

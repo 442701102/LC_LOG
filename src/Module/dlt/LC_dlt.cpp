@@ -84,7 +84,7 @@ void dltLogger::HandleLogOutput(LogLevel level, const std::string& message) {
         std::cout << "dltLogger is not enabled" << std::endl;
     }
 }
-bool dltLogger::Configure(LC_LOG_SETTING &config) {
+bool dltLogger::Configure(LCLog_cfg_st &config) {
     if (this->_start_init == true) {
         std::cout << "dltLogger has been initialized" << std::endl;
         return true;

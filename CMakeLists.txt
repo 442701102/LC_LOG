@@ -8,13 +8,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 message("Weclome to the LC_LOG_PRO !!!!")
 
 set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/third-party")
+# 通过命令行或 GUI 提供一个选项来选择日志实现
+if(NOT DEFINED LOGGER_CRTP)
+    set(LOGGER_CRTP "CUSTOM" CACHE STRING "选择要使用的日志实现")
+endif()
 
-# Suppose we have an option for choosing the logger implementation
-set(LOGGER_CRTP "DLT" CACHE STRING "Select which logging implementation to use")
-# Configure based on the selected logger
-if(LOGGER_CRTP STREQUAL "STD_COUT")
+# 可用选项的文档
+set_property(CACHE LOGGER_CRTP PROPERTY STRINGS "CUSTOM" "SPDLOG" "GLOG" "LOG4CPLUS" "DLT")
+
+# 根据选择的日志器配置
+if(LOGGER_CRTP STREQUAL "CUSTOM")
     add_definitions(-DUSE_STD_COUT)
-    set(USE_STDOUT_LOGGER  1)
+    set(USE_CUSTOM_LOGGER  1)
 elseif(LOGGER_CRTP STREQUAL "SPDLOG")
     add_definitions(-DUSE_SPDLOG)
     set(USE_SPDLOG_LOGGER  1)
@@ -28,7 +33,7 @@ elseif(LOGGER_CRTP STREQUAL "DLT")
     add_definitions(-DUSE_DLT)
     set(USE_DLT_LOGGER  1)
 else()
-    message(FATAL_ERROR "Invalid logger implementation selected: ${LOGGER_IMPL}")
+    message(FATAL_ERROR "选择了无效的日志实现：${LOGGER_CRTP}")
 endif()
 
 message(STATUS "Selected logger implementation: ${LOGGER_CRTP}")
