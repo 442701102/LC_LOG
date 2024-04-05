@@ -1,45 +1,43 @@
-#ifndef LC_LOG4_H
-#define LC_LOG4_H
+#ifndef LC_DLT_H
+#define LC_DLT_H    
 
+#include "LCLoggerBase.hpp" 
 
-#include "LCLoggerBase.hpp"
 
 namespace lclog {
 
-class log4cplusLogger : public LCLoggerBase<log4cplusLogger> {
-    friend LCLoggerBase<log4cplusLogger>;
+class DLL_PUBLIC  dltLogger : public LCLoggerBase<dltLogger> {
+    friend LCLoggerBase<dltLogger>;
 private:
 
-    log4cplusLogger():_start_init(false){};
-    bool  _log4cplusInit(LC_LOG_SETTING &config);
-    
-    std::atomic<bool> _start_init;
-    std::thread _Delay_Thread;
-public: 
-    ~log4cplusLogger() override;
-    log4cplusLogger(const log4cplusLogger&) = delete;
-    log4cplusLogger& operator=(const log4cplusLogger&) = delete;
+    dltLogger():_start_init(false){};
 
-    static log4cplusLogger& GetInstance() {
-        static log4cplusLogger instance;
+    std::atomic<bool> _start_init;
+
+    class DltImpl; // 前向声明实现类
+    dltLogger::DltImpl* _pImpl; // Pimpl指针
+
+public: 
+
+    virtual ~dltLogger()override; // 仅声明析构函数
+    dltLogger(const dltLogger&) = delete;
+    dltLogger& operator=(const dltLogger&) = delete;
+
+    static dltLogger& GetInstance() {
+        static dltLogger instance;
         return instance;
     }
 
-
-
 protected:
+
     void HandleLogOutput(LogLevel level, const std::string& message) override;//< Log the message with the specified level    
     bool isEnable() override;//< Check if the logger is enabled 
     bool Configure(LC_LOG_SETTING &config)override;//< Configure the logger
 };
+
 }
 
-#endif // LC_LOG4_H
-
-
-
-
-
+#endif // LC_DLT_H
 
 
 

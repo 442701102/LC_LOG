@@ -21,8 +21,8 @@
 #include "Module/log4cplus/LC_log4cplus.h"
 #define Derived log4cplusLogger
 #elif defined(USE_DLT_LOGGER)
-#include "DltLogger.h"
-#define Derived DltLogger
+#include "Module/dlt/LC_dlt.h"  
+#define Derived dltLogger
 #else
 #error "No logger type defined!"
 #endif

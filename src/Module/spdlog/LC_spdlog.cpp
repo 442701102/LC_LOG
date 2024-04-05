@@ -84,6 +84,8 @@ lclog::spdlogLogger::~spdlogLogger() {
     if (_pImpl && _pImpl->logger) {
         spdlog::drop(_pImpl->logger->name());
     }
+    delete _pImpl;  
+    spdlog::shutdown(); 
 }
 bool spdlogLogger::isEnable() {
     return this->_start_init;
