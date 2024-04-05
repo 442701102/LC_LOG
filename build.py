@@ -25,6 +25,8 @@ default_create_py="recipe_dlt.py"
 default_profiles_name = "profiles_Ubuntu_20.04"
 default_deployer_name = "deployer_thirdparty"
 
+log_build_type = ""
+
 
 def run_conan_command(command, env_vars):
     """
@@ -111,6 +113,27 @@ def install_package(args, env_vars):
     ])
     run_conan_command(command, env_vars)
 
+def get_log_build_type(log_type_input):
+    # 定义日志类型映射
+    log_type_mapping = {
+        "1": "CUSTOM",
+        "2": "SPDLOG",
+        "3": "GLOG",
+        "4": "LOG4CPLUS",
+        "5": "DLT"
+    }
+
+    # 检查输入是否为数字映射中的一个，或者直接是有效字符串
+    if log_type_input in log_type_mapping:
+        # 从映射中获取对应的日志类型字符串
+        return log_type_mapping[log_type_input]
+    elif log_type_input in log_type_mapping.values():
+        # 直接返回有效的日志类型字符串
+        return log_type_input
+    else:
+        # 输入无效，抛出一个错误
+        raise ValueError("Invalid log type specified. Please choose a valid option.")
+
 def main():
     """
     Main function that parses command-line arguments and runs the Conan command.
@@ -140,14 +163,21 @@ def main():
     # use to install
     parser.add_argument("--deploy_path", help="Path to deploy the artifacts.", default=os.path.join(os.getcwd(), "extensions", "deployers"))
     parser.add_argument("--deployer_name", help="Name of the deployer to use.")
+    # use log type
+    parser.add_argument("--log_type", help="log type to use.")
 
     # 解析命令行参数
     args = parser.parse_args()
 
     print("args:", args)   
-    
 
-
+    if args.log_type:
+        try:
+            global log_build_type
+            log_build_type = get_log_build_type(args.log_type)
+            print("Log build type:", log_build_type)
+        except ValueError as e:
+            print(e)
 
     # 设置环境变量
     env_vars = os.environ.copy()
@@ -160,6 +190,7 @@ def main():
     elif args.action == "all":
         create_package(args, env_vars)
         install_package(args, env_vars)
+
 
 
 
@@ -202,9 +233,14 @@ if __name__ == "__main__":
         f"-Dlibunwind_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}",
         f"-DLibLZMA_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}",
         f"-DZLIB_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}", 
+        f"-Dnlohmann_json_DIR={os.path.join(build_dir, f'{BUILD_TYPE}/generators/')}",
         "-G",
         "Unix Makefiles"
     ]
+    if log_build_type:
+        cmake_configure_command.extend([
+            f"-Dlog_build_type={log_build_type}"
+        ])
 
     cmake_build_command = [
         "cmake",

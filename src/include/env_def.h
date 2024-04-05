@@ -13,7 +13,7 @@ namespace lclog {
         Fatal
     };
 
-    struct LC_LOG_SETTING{
+    struct LCLog_cfg_st{
         std::string input_file; 
         std::string output_file;
         std::string log_id;

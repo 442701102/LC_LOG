@@ -18,7 +18,7 @@ static constexpr log4cplus::LogLevel mapLogLevel(LogLevel level) {
         default: return ::log4cplus::TRACE_LOG_LEVEL;
     }
 }
-bool log4cplusLogger::Configure(LC_LOG_SETTING &config) {
+bool log4cplusLogger::Configure(LCLog_cfg_st &config) {
     if (this->_start_init == true) {
         std::cout << "log4cplusLogger has been initialized" << std::endl;
         return true;

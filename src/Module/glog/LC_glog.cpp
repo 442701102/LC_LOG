@@ -24,7 +24,7 @@ glogLogger::~glogLogger(){
 void glogLogger::HandleLogOutput(LogLevel level, const std::string& message) {
        VLOG(mapLogLevel(level)) << message; 
 }
-bool glogLogger::Configure(LC_LOG_SETTING &config) {
+bool glogLogger::Configure(LCLog_cfg_st &config) {
     if(this->_start_init == true){
       std::cout  <<  "The log system has been initialized" <<std::endl;
       return false;
@@ -49,7 +49,7 @@ bool glogLogger::Configure(LC_LOG_SETTING &config) {
     this->_start_init = true;
     return true;
 }
-bool glogLogger::_glogConfig(LC_LOG_SETTING &config) {
+bool glogLogger::_glogConfig(LCLog_cfg_st &config) {
     FLAGS_v = mapLogLevel(config.log_level);
     FLAGS_logtostderr = (config.log_to_file) ? 0:1; //1不输出到文件
     FLAGS_alsologtostderr = true;

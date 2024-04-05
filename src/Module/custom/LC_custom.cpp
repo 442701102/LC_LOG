@@ -10,7 +10,7 @@ void customLogLogger::HandleLogOutput(LogLevel level, const std::string& message
     // 同时输出到控制台
     std::cout << "custom [ " << level << " ] " << message << std::endl;    
 }
-bool  customLogLogger::Configure(LC_LOG_SETTING &config) {
+bool  customLogLogger::Configure(LCLog_cfg_st &config) {
     this->_start_init = true;
     return true;
 }     

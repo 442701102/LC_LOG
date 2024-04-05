@@ -38,13 +38,15 @@ find_package(glog REQUIRED)
 find_package(log4cplus REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(dlt-daemon REQUIRED)
+find_package(nlohmann_json)
+
 
 message(STATUS "LOGGER_SRC_FILES: ${LOGGER_SRC_FILES}")
 # Add the source files to the target
-add_library(${PROJECT_NAME} ${LOGGER_SRC_FILES} LCLoggerBase.hpp LCLoggerBase.cpp ${HEADER_FILES})
+add_library(${PROJECT_NAME} ${LOGGER_SRC_FILES} LCLoggerBase.hpp LCLoggerBase.cpp ConfigLoader.h ConfigLoader.cpp ${HEADER_FILES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME} PUBLIC  log4cplus::log4cplus fmt::fmt glog::glog spdlog::spdlog dlt-daemon::dlt-daemon)
+target_link_libraries(${PROJECT_NAME} PUBLIC  log4cplus::log4cplus fmt::fmt glog::glog spdlog::spdlog dlt-daemon::dlt-daemon nlohmann_json::nlohmann_json)  
 #设置运行时依赖在cmake主目录的 third-party
 
 #target_precompile_headers(${PROJECT_NAME} PUBLIC  )

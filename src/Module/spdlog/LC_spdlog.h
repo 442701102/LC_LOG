@@ -29,7 +29,7 @@ public:
 protected:
     void HandleLogOutput(LogLevel level, const std::string& message) override;//< Log the message with the specified level    
     bool isEnable() override;//< Check if the logger is enabled 
-    bool Configure(LC_LOG_SETTING &config)override;//< Configure the logger
+    bool Configure(LCLog_cfg_st &config)override;//< Configure the logger
 };
 }
 
