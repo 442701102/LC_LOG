@@ -6,7 +6,7 @@
 
 namespace lclog {
 
-class log4cplusLogger : public LCLoggerBase<log4cplusLogger> {
+class DLL_PUBLIC  log4cplusLogger : public LCLoggerBase<log4cplusLogger> {
     friend LCLoggerBase<log4cplusLogger>;
 private:
 

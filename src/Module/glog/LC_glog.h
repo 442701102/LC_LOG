@@ -4,7 +4,7 @@
 #include "LCLoggerBase.hpp"
 
 namespace lclog {
-class glogLogger : public LCLoggerBase<glogLogger> {
+class DLL_PUBLIC  glogLogger : public LCLoggerBase<glogLogger> {
     friend LCLoggerBase<glogLogger>; 
 private:
     glogLogger():_start_init(false){};
