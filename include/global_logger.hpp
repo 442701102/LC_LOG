@@ -55,15 +55,6 @@ void init(const std::string& config_file="") {
     }
     ConfigLoader::GetInstance().getConfig(config);
 
- 
-    config.input_file = "/tmp/lclog_input.log";
-    config.output_file = "lclog_output.log";
-    config.log_id = "lclog";
-    config.log_level = LogLevel::Info;
-    config.max_file_size = 1024;
-    config.max_file_count = 10;
-    config.log_to_file = true;  
-    config.daily_file = false;  
     GlobalLogInstance().init(config);
 }
 
