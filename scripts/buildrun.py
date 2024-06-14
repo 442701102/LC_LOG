@@ -51,5 +51,5 @@ if runlib_dir not in current_path:
     new_path = f"{runlib_dir}:{current_path}" if current_path else runlib_dir
     os.environ[lib_env_var] = new_path
 
-print(f"环境变量 {lib_env_var} 临时设置为: {os.environ[lib_env_var]}")
+print(f"请将环境变量 {lib_env_var} 临时设置为: {os.environ[lib_env_var]},例如: export {lib_env_var}={os.environ[lib_env_var]}")
 

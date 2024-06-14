@@ -1,3 +1,4 @@
+third-party/
 # Prerequisites
 *.d
 
@@ -33,6 +34,8 @@
 
 build/
 CMakeUserPresets.json
-third-party/
+third-party
 *.log
 include/config.h
+third-party/*
+
