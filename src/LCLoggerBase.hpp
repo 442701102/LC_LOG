@@ -17,9 +17,10 @@
     #include <format>
     #define FMT_USE_STD_FORMAT
 #else
-#include <fmt/format.h>
-#define FMT_USE_FMT
+    #include <fmt/format.h>
+    #define FMT_USE_FMT
 #endif
+
 
 
 #ifdef FMT_USE_STD_FORMAT
@@ -68,11 +69,18 @@ public:
     template<typename... Args> requires Formattable<Args...>
     void LogFormat(LogLevel level, std::string_view format, Args&&... args) {
         if(level < m_currentLevel) return;
-    #ifdef FMT_USE_STD_FORMAT
-        std::string message = std::format(format, std::forward<Args>(args)...);
-    #else
+     #ifdef FMT_USE_STD_FORMAT
+        // 先将右值参数存储到局部变量中
+        auto args_tuple = std::forward_as_tuple(std::forward<Args>(args)...);
+
+        // 使用 std::apply 来将参数展开并传递给 std::make_format_args
+        auto args_pack = std::apply([](auto&&... largs) {
+            return std::make_format_args(std::forward<decltype(largs)>(largs)...);
+        }, args_tuple);
+        std::string message = std::vformat(format, args_pack);
+     #else
         std::string message = fmt::format(fmt::runtime(format), std::forward<Args>(args)...);
-    #endif
+     #endif
         Derived::GetInstance().HandleLogOutput(level, message);
     }
     // 字符串拼接日志接口

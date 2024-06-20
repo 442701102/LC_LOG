@@ -27,14 +27,11 @@ class ExeRecipe(ConanFile):
 
     def requirements(self):
         self.requires("nlohmann_json/3.11.3")  
-        self.requires("glog/0.7.0")   
         self.requires("log4cplus/2.1.1")
         self.requires("fmt/10.2.1")
         self.requires("dlt-daemon/2.18.10") 
-        self.requires("spdlog/1.13.0")  
-
-        
-
+        self.requires("spdlog/1.14.1")  
+        self.requires("glog/0.7.1")
 
     def configure(self):
         if self.options.shared:
@@ -58,8 +55,8 @@ class ExeRecipe(ConanFile):
         cmake = CMake(self)
         cmake.install()
 
-    def package_info(self):
-        self.cpp_info.libs = ["libLCLOG"]
+#    def package_info(self):
+#        self.cpp_info.libs = ["libLCLOG"]
 
     
 

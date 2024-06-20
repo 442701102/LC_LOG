@@ -1,8 +1,0 @@
-[settings]
-arch=x86_64
-build_type=Debug
-compiler=gcc
-compiler.version=11.1
-os=Linux
-[options]
-shared=True
