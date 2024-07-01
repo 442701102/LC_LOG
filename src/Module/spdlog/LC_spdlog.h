@@ -12,24 +12,21 @@ private:
     spdlogLogger():_start_init(false){};
 
     std::atomic<bool> _start_init;
-
     class spdImpl; // 前向声明实现类
     spdlogLogger::spdImpl* _pImpl; // Pimpl指针
-
 public:
-    virtual ~spdlogLogger()override; // 仅声明析构函数
+
     spdlogLogger(const spdlogLogger&) = delete;
     spdlogLogger& operator=(const spdlogLogger&) = delete;
+    spdlogLogger(spdlogLogger&&) = delete;
+    spdlogLogger& operator=(spdlogLogger&&) = delete;
 
-    static spdlogLogger& GetInstance() {
-        static spdlogLogger instance;
-        return instance;
-    }
 
 protected:
-    void HandleLogOutput(LogLevel level, const std::string& message) override;//< Log the message with the specified level    
-    bool isEnable() override;//< Check if the logger is enabled 
-    bool Configure(LCLog_cfg_st &config)override;//< Configure the logger
+    ~spdlogLogger(); // 仅声明析构函数
+    void HandleLogOutput(LogLevel level, const std::string& message) ;//< Log the message with the specified level    
+    bool isEnable() ;//< Check if the logger is enabled 
+    bool Configure(LCLog_cfg_st &config);//< Configure the logger
 };
 }
 

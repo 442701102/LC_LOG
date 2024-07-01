@@ -75,7 +75,7 @@ bool glogLogger::_glogConfig(LCLog_cfg_st &config) {
 //    google::InstallFailureWriter(&SignalHandle);
     return true;
 }
-inline bool glogLogger::isEnable() {
+bool glogLogger::isEnable() {
     return this->_start_init;
 }
 

@@ -23,20 +23,19 @@ public:
     } logsetting;
     logsetting _log_setting{".", "info", 2, 0, false};
 
-    ~glogLogger() override;
     glogLogger(const glogLogger&) = delete;
     glogLogger& operator=(const glogLogger&) = delete;
 
-
-    static glogLogger& GetInstance() {
-        static glogLogger instance;
-        return instance;
-    }
+    //删除 glogLogger 的移动构造函数
+    glogLogger(glogLogger&&) = delete;
+    //删除 glogLogger 的移动赋值运算符
+    glogLogger& operator=(glogLogger&&) = delete;
 
 protected:  
-    void HandleLogOutput(LogLevel level, const std::string& message) override;//< Log the message with the specified level    
-    bool isEnable() override;//< Check if the logger is enabled
-    bool Configure(LCLog_cfg_st &config)override;//< Configure the logger
+    void HandleLogOutput(LogLevel level, const std::string& message) ;//< Log the message with the specified level    
+    bool isEnable();//< Check if the logger is enabled
+    bool Configure(LCLog_cfg_st &config);//< Configure the logger
+    ~glogLogger();
 };
 }
 

@@ -7,17 +7,20 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 # 引用 common_utils.sh
 source "$SCRIPT_DIR/common_utils.sh"
+
 DEFAULT_HOST_PROFILE="profiles_Ubuntu_20.04"
 DEFAULT_ACTION="all"
 DEFAULT_CONANFILE="conanfile.py"
+DEFAULT_LOG_TYPE="CUSTOM"
 
 # 帮助信息函数
 show_help() {
-    echo "Usage: $0 [action] [conanfile] [HOST_PROFILE] [test]"
+    echo "Usage: $0 [action] [conanfile] [HOST_PROFILE] [test] [LOG_TYPE]"
     echo "***** action: Build action to perform, default is 'all'"
     echo "***** conanfile: Path to the conanfile, if not provided defaults will be used"
     echo "***** host_profile: Host profile, default is 'profiles_Ubuntu_20.04'"
     echo "***** test: If 'test' is passed as the fourth argument, test_package will be executed"
+    echo "***** LOG_TYPE: set the log type, default is 'CUSTOM', it can be 'CUSTOM', 'SPDLOG', 'GLOG', 'LOG4CPLUS', 'DLT'"
     echo "***** --help, -h: Show this help message"
 }
 
@@ -32,11 +35,15 @@ fi
 
 # 调用 run_build 函数
 
+
 ACTION="${1:-$DEFAULT_ACTION}"
 CONANFILE="${2:-$DEFAULT_CONANFILE}"
 HOST_PROFILE="${3:-$DEFAULT_HOST_PROFILE}" #因为脚本明确了意图,所以这个参数不重要
 BUILD_TYPE="${4:-Debug}" # it can be Release or Debug
+LOG_TYPE="${5:-$DEFAULT_LOG_TYPE}" # it can be GLOG or SPDLOG
 
+
+echo "LOG_TYPE" $LOG_TYPE
 
 # 如果输入的是单字符 D 或 d，转换为 Debug
 if [[ "$BUILD_TYPE" == "D" || "$BUILD_TYPE" == "d" ]]; then
@@ -53,8 +60,7 @@ if [[ -n "$CONANFILE" ]]; then
 fi
 
 # 调用 run_build 函数
-run_build "$HOST_PROFILE" "$ACTION" "$CONANFILE" "$BUILD_TYPE"
-# if 
+run_build "$HOST_PROFILE" "$ACTION" "$CONANFILE" "$BUILD_TYPE" "$LOG_TYPE"
 
 #如果 ACTION 为 c create,则不执行后续操作
 if [ "$ACTION" == "c" ] || [ "$ACTION" == "create" ]; then

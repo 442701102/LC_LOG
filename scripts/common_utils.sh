@@ -58,19 +58,21 @@ run_build() {
     local default_deployer_name="deployer_thirdparty" # 按需求修改
     local default_host_profile="profiles_Ubuntu_20.04" # 按需求修改
     local default_build_type="Release" # 按需求修改
+    local default_log_type="GLOG" # 按需求修改
 
     local default_conanfile="" # 如果无效，则不传递给 Python 脚本,使用build.py中的默认值
     local default_conan_home="/path/to/conan/home" # 未使用 
     
-
-
     local host_profile="$1" #通过上层传递构建的编译配置文件
     local action=${2:-$default_action}
     local conanfile=${3:-$default_conanfile}
     local buile_type=${4:-$default_build_type}
+    local log_type=${5:-$default_log_type}
+
     echo "Build profile: $host_profile"
     echo "Action: $action"
     echo "Conanfile: $conanfile"
+    
 ############ 参数 1 为构建配置文件，参数 2 为构建动作，参数 3 为 Conanfile ############
 
 ############ 参数 1 为构建配置文件 ############
@@ -110,24 +112,41 @@ run_build() {
             echo "Error: CONANFILE does not point to a valid file: $conanfile"
         fi
     fi
+############ 参数4 日志类型 ############
+    if [[ "$log_type" == "1" || "$log_type" == "CUSTOM" ]]; then
+        log_type="CUSTOM"
+    elif [[ "$log_type" == "2" || "$log_type" == "SPDLOG" ]]; then
+        log_type="SPDLOG"
+    elif [[ "$log_type" == "3" || "$log_type" == "GLOG" ]]; then
+        log_type="GLOG"
+    elif [[ "$log_type" == "4" || "$log_type" == "LOG4CPLUS" ]]; then
+        log_type="LOG4CPLUS"
+    elif [[ "$log_type" == "5" || "$log_type" == "DLT" ]]; then
+        log_type="DLT"
+    else
+        log_type="CUSTOM"
+    fi
 ############ 打印参数 ############
     echo "Build profile: $host_profile"
 
     echo "Conanfile: $conanfile"
+    echo "log_type $log_type"
 ############ 调用 Python 脚本并传递参数 ############
+
     local cmd="python3 $python_script \
         --action=$action \
         --profiles_path=$default_profiles_path \
         --host_profile=$host_profile \
         --deploy_path=$default_deploy_path \
         --deployer_name=$default_deployer_name \
-        --build_type=$buile_type"
+        --build_type=$buile_type \
+        --log_type=$log_type"
 
     if [[ -n "$conanfile" && -f "$conanfile" ]]; then
         echo "Conanfile: $conanfile"
         cmd="$cmd --conanfile=$conanfile"
     fi
-############ 执行命令 ############
+# ############ 执行命令 ############
     cd "$script_dir/../" || exit
     echo "Executing command: $cmd"
     eval "$cmd"

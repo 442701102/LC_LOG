@@ -18,20 +18,18 @@ private:
 
 public: 
 
-    virtual ~dltLogger()override; // 仅声明析构函数
+    ~dltLogger(); // 仅声明析构函数
     dltLogger(const dltLogger&) = delete;
     dltLogger& operator=(const dltLogger&) = delete;
+    dltLogger(dltLogger&&) = delete;
+    dltLogger& operator=(dltLogger&&) = delete;
 
-    static dltLogger& GetInstance() {
-        static dltLogger instance;
-        return instance;
-    }
 
 protected:
 
-    void HandleLogOutput(LogLevel level, const std::string& message) override;//< Log the message with the specified level    
-    bool isEnable() override;//< Check if the logger is enabled 
-    bool Configure(LCLog_cfg_st &config)override;//< Configure the logger
+    void HandleLogOutput(LogLevel level, const std::string& message) ;//< Log the message with the specified level    
+    bool isEnable() ;//< Check if the logger is enabled 
+    bool Configure(LCLog_cfg_st &config);//< Configure the logger
 };
 
 }
