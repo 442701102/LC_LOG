@@ -12,19 +12,18 @@ private:
     log4cplusLogger():_start_init(false){};
     std::atomic<bool> _start_init;
 public: 
-    ~log4cplusLogger() override;
+
     log4cplusLogger(const log4cplusLogger&) = delete;
     log4cplusLogger& operator=(const log4cplusLogger&) = delete;
+    log4cplusLogger(log4cplusLogger&&) = delete;
+    log4cplusLogger& operator=(log4cplusLogger&&) = delete;
 
-    static log4cplusLogger& GetInstance() {
-        static log4cplusLogger instance;
-        return instance;
-    }
 
 protected:
-    void HandleLogOutput(LogLevel level, const std::string& message) override;//< Log the message with the specified level    
-    bool isEnable() override;//< Check if the logger is enabled 
-    bool Configure(LCLog_cfg_st &config)override;//< Configure the logger
+    ~log4cplusLogger() ;
+    void HandleLogOutput(LogLevel level, const std::string& message) ;//< Log the message with the specified level    
+    bool isEnable() ;//< Check if the logger is enabled 
+    bool Configure(LCLog_cfg_st &config);//< Configure the logger
 };
 }
 

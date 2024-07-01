@@ -11,19 +11,18 @@ private:
     std::atomic<bool> _start_init;
     customLogLogger():_start_init(false){}; 
 public:
-    virtual ~customLogLogger()override;
+
+    ~customLogLogger();
+
     customLogLogger(const customLogLogger&) = delete;   
     customLogLogger& operator=(const customLogLogger&) = delete;
-
-    static customLogLogger& GetInstance() {
-        static customLogLogger instance;
-        return instance;
-    }
+    customLogLogger(customLogLogger&&) = delete;
+    customLogLogger& operator=(customLogLogger&&) = delete;
 
 protected:  
-    void HandleLogOutput(LogLevel level, const std::string& message) override;//< Log the message with the specified level    
-    bool isEnable() override;//< Check if the logger is enabled
-    bool Configure(LCLog_cfg_st &config)override;//< Configure the logger
+    void HandleLogOutput(LogLevel level, const std::string& message) ;//< Log the message with the specified level    
+    bool isEnable() ;//< Check if the logger is enabled
+    bool Configure(LCLog_cfg_st &config);//< Configure the logger
 };
 }
 

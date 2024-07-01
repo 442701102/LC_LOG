@@ -39,16 +39,21 @@ template<typename... Args>
 concept Formattable = (... && FormattableSingle<Args>);
 
 namespace lclog {
-// CRTP基类
 template<typename Derived>
 class LCLoggerBase  {
 public:
-    LCLoggerBase () = default; //< 默认构造函数
-    virtual ~LCLoggerBase() = default; //< 虚析构函数
-
     // 禁止拷贝构造和赋值
     LCLoggerBase (const LCLoggerBase &) = delete;
     LCLoggerBase & operator=(const LCLoggerBase &) = delete;
+
+    // 禁止移动构造和赋值
+    LCLoggerBase (LCLoggerBase &&) = delete;
+    LCLoggerBase & operator=(LCLoggerBase &&) = delete;
+
+    static Derived& GetInstance() {
+        static Derived instance; // Guaranteed to be destroyed, instantiated on first use.
+        return instance;
+    }
 
     // 静态初始化方法
     bool init(LCLog_cfg_st &config, LogLevel level = LogLevel::Info) {
@@ -145,13 +150,12 @@ public:
     }
 
 protected:
-    virtual void HandleLogOutput(LogLevel level, const std::string& message) = 0;
-    virtual bool isEnable() = 0;    
-    virtual bool Configure(LCLog_cfg_st &config) = 0;
+    LCLoggerBase () = default; //< 默认构造函数
+    ~LCLoggerBase() = default; //< 虚析构函数    
+    
     //current log level
     LogLevel m_currentLevel = LogLevel::Info;
     std::mutex _wait_mutex;
-    
 
 };
 }
